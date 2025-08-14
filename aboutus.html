@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us - Hirono Figurines</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+    .navbar {
+      width: 220px;
+      background-color: #2c3e50;
+      color: white;
+      padding: 20px 0;
+      position: fixed;
+      height: 100vh;
+    }
+    .navbar h2 {
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .navbar button {
+      display: block;
+      width: 100%;
+      background-color: #34495e;
+      color: white;
+      border: none;
+      padding: 16px 20px;
+      text-align: left;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .navbar button:hover {
+      background-color: #3d5a73;
+    }
+    .dropdown {
+      display: none;
+      flex-direction: column;
+    }
+    .has-dropdown:hover .dropdown {
+      display: flex;
+    }
+    .dropdown a {
+      color: white;
+      padding: 12px 30px;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .dropdown a:hover {
+      background-color: #3d5a73;
+    }
+    .main {
+      margin-left: 220px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .topbar {
+      height: 60px;
+      background-color: #ecf0f1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 0 20px;
+      gap: 20px;
+    }
+    .dropdown-hover,
+    .dropdown-click {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      box-shadow: 0 0 5px rgba(0,0,0,0.2);
+      display: none;
+      flex-direction: column;
+      z-index: 10;
+      min-width: 150px;
+    }
+    .dropdown-hover:hover .dropdown-menu,
+    .dropdown-hover:focus-within .dropdown-menu,
+    .dropdown-click:hover .dropdown-menu,
+    .dropdown-click:focus-within .dropdown-menu {
+      display: flex;
+    }
+    .dropdown-menu button {
+      padding: 10px;
+      background-color: white;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .dropdown-menu button:hover {
+      background-color: #f0f0f0;
+      color: #3498db;
+    }
+    .dropdown-hover button,
+    .dropdown-click button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      padding: 40px 30px;
+      height: calc(100vh - 60px);
+      overflow: hidden;
+      background-color: #fff;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .about-section {
+      max-width: 800px;
+    }
+
+    .about-section h2 {
+      font-size: 26px;
+      margin-bottom: 16px;
+      color: #2c3e50;
+    }
+
+    .about-section p {
+      font-size: 16px;
+      margin-bottom: 20px;
+      color: #444;
+      line-height: 1.6;
+    }
+
+    .highlights {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .highlight-item {
+      background-color: #f4f4f4;
+      padding: 20px;
+      border-radius: 8px;
+      min-width: 180px;
+      max-width: 220px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .highlight-item h4 {
+      margin-bottom: 10px;
+      color: #2c3e50;
+    }
+
+    .highlight-item p {
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <h2>Hirono Shop</h2>
+    <button>Home</button>
+    <button>Shop Now</button>
+    <button>Promotions</button>
+    <div class="has-dropdown">
+      <button>User Section ▾</button>
+      <div class="dropdown">
+        <a>My Orders</a>
+        <a>Track Order</a>
+        <a>My Wishlist</a>
+      </div>
+    </div>
+    <div class="has-dropdown">
+      <button>Help And Info ▾</button>
+      <div class="dropdown">
+        <a>Help Center</a>
+        <a>Contact Us</a>
+        <a>Shipping Info</a>
+        <a>Return Policy</a>
+        <a>About Us</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="topbar">
+      <div class="dropdown-hover" tabindex="0">
+        <button>Intercom ▾</button>
+        <div class="dropdown-menu">
+          <button>Product Tour</button>
+          <button>Tour 1</button>
+          <button>Tour 2</button>
+        </div>
+      </div>
+      <div class="dropdown-click" tabindex="0">
+        <button>Profile ▾</button>
+        <div class="dropdown-menu">
+          <button>My Account</button>
+          <button>Orders</button>
+          <button>Wishlist</button>
+          <button>Logout</button>
+        </div>
+      </div>
+      <span>🛒 Cart</span>
+    </div>
+
+    <div class="content">
+      <div class="about-section">
+        <h2>Our Story</h2>
+        <p>Hirono is more than just figurines – it's a celebration of artistic emotion and imagination. Each Hirono piece is crafted to embody a story, a moment, a feeling. We started with a dream to turn passion into timeless art. Today, we serve collectors around the world who share the same love for creativity, craftsmanship, and character.</p>
+
+        <h2>Why Choose Us?</h2>
+        <div class="highlights">
+          <div class="highlight-item">
+            <h4>🌍 Worldwide Shipping</h4>
+            <p>We deliver to over 100+ countries with secure, trackable shipping.</p>
+          </div>
+          <div class="highlight-item">
+            <h4>🏠 Locally Made</h4>
+            <p>Each figurine is lovingly handcrafted in our local studios.</p>
+          </div>
+          <div class="highlight-item">
+            <h4>🔒 Lifetime Warranty</h4>
+            <p>We stand by the quality of every piece we create—forever.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
