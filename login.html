@@ -1,31 +1,133 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Login</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beyond the Case - Login</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { display: flex; flex-direction: column; min-height: 100vh; margin: 0; background-color: #f4f4f4; }
+
+    /* Topbar */
+    .topbar {
+      height: 60px;
+      background-color: #ecf0f1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 0 20px;
+      gap: 20px;
+    }
+    .nav-button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    .nav-button:hover {
+      background-color: #2980b9;
+    }
+
+    /* Login form styling */
+    .content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .login-box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    .login-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #3498db;
+    }
+    .login-box label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    .login-box input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .login-box button {
+      width: 100%;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      padding: 10px;
+      margin-top: 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .login-box button:hover {
+      background-color: #219150;
+    }
+    pre {
+      background: #f8f8f8;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+    .success {
+      color: green;
+      font-weight: bold;
+    }
+    .error {
+      color: red;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <h2>Member Login</h2>
 
-  <form id="loginForm">
-    <label>Email:</label><br>
-    <input type="email" id="loginEmail" placeholder="Enter Email" required><br><br>
+  <!-- Topbar -->
+  <div class="topbar">
+    <div style="margin-right:auto; display:flex; gap:10px;">
+      <button class="nav-button" onclick="location.href='helpcenter.html'">Help Center</button>
+      <button class="nav-button" onclick="location.href='aboutus.html'">About Us</button>
+      <button class="nav-button">Contact Us</button>
+    </div>
+    <button class="nav-button" onclick="location.href='index.html'">Return Home</button>
+  </div>
 
-    <label>Password:</label><br>
-    <input type="password" id="loginPassword" placeholder="Enter Password" required><br><br>
+  <!-- Content -->
+  <div class="content">
+    <div class="login-box">
+      <h2>Member Login</h2>
+      <form id="loginForm">
+        <label>Email:</label>
+        <input type="email" id="loginEmail" placeholder="Enter Email" required>
 
-    <button type="submit">Login</button>
-  </form>
+        <label>Password:</label>
+        <input type="password" id="loginPassword" placeholder="Enter Password" required>
 
-  <!-- Use <pre> for better formatting of JSON -->
-  <pre id="loginMessage"></pre>
+        <button type="submit">Login</button>
+      </form>
+      <pre id="loginMessage"></pre>
+    </div>
+  </div>
 
+  <!-- Firebase Script -->
   <script type="module">
-    // Import Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyBCVlP2FHFYUszSns9GLgDJXpHwCkknL8w",
       authDomain: "btcuserdb.firebaseapp.com",
@@ -35,36 +137,49 @@
       appId: "1:598178558501:web:613be8d9f986e2885985cc"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // Handle form submit
     document.getElementById("loginForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
+      e.preventDefault(); // stop form refresh
 
       const email = document.getElementById("loginEmail").value.trim();
       const password = document.getElementById("loginPassword").value.trim();
       const msg = document.getElementById("loginMessage");
 
-      // Query Firestore for matching email & password
-      const q = query(
-        collection(db, "members"),
-        where("memberEmail", "==", email),
-        where("memberPassword", "==", password)
-      );
+      try {
+        const q = query(
+          collection(db, "members"),
+          where("memberEmail", "==", email),
+          where("memberPassword", "==", password)
+        );
 
-      const querySnapshot = await getDocs(q);
+        const querySnapshot = await getDocs(q);
 
-      if (!querySnapshot.empty) {
-        const memberData = querySnapshot.docs[0].data();
+        if (!querySnapshot.empty) {
+          const userData = querySnapshot.docs[0].data();
 
-        // Format and show all fields
-        msg.textContent = JSON.stringify(memberData, null, 2);
-      } else {
-        msg.textContent = "Failed login";
+          // Save login state
+          localStorage.setItem("isLoggedIn", "true");
+          localStorage.setItem("userName", userData.memberName || email);
+
+          msg.textContent = "✅ Login Success";
+          msg.className = "success";
+
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 1000);
+        } else {
+          msg.textContent = "❌ Failed login - Incorrect email or password.";
+          msg.className = "error";
+        }
+      } catch (error) {
+        console.error("Login error:", error);
+        msg.textContent = "⚠️ Error connecting to server.";
+        msg.className = "error";
       }
     });
   </script>
+
 </body>
 </html>

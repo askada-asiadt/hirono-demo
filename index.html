@@ -57,7 +57,7 @@
       background-color: #3498db;
       color: white;
       border: none;
-      padding: 8px 12px;
+      padding: 8px 2px;
       cursor: pointer;
     }
 
@@ -110,11 +110,11 @@
       <button class="nav-button">Contact Us</button>
     </div>
 
-    <!-- Right side -->
+    <!-- Intercom Dropdown -->
     <div class="dropdown-hover">
       <button>Intercom ▾</button>
       <div class="dropdown-menu">
-        <button>Product Tour</button>
+        <button>Tour</button>
         <button>Tour 1</button>
         <button>Tour 2</button>
       </div>
@@ -126,7 +126,7 @@
 
   <div class="content">
     <!-- Hero Banner -->
-    <div class="hero">
+    <div class="hero" id="heroText">
       Beyond the Case – Your Phone, Your Style, Your Tech
     </div>
 
@@ -176,16 +176,27 @@
   </div>
 
   <script>
-    // Simulate logged-in status (true = logged in, false = not logged in)
-    let isLoggedIn = false; // change to true to test logged-in view
+    // Check login status from localStorage
+    let isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    let userName = localStorage.getItem("userName") || "User";
 
     let userButtons = document.getElementById("userButtons");
+    let heroText = document.getElementById("heroText");
 
     if (isLoggedIn) {
-      // Show Shop button
-      userButtons.innerHTML = `<button style="background-color:#27ae60;color:white;border:none;padding:10px 15px;cursor:pointer;">Shop</button>`;
+      // Logged-in view
+      userButtons.innerHTML = `
+        <div class="dropdown-click">
+          <button>Accounts ▾</button>
+          <div class="dropdown-menu">
+            <button onclick="location.href='profile.html'">Profile</button>
+            <button onclick="logout()">Logout</button>
+          </div>
+        </div>
+      `;
+      heroText.textContent = `Welcome back, ${userName}!`;
     } else {
-      // Show Accounts dropdown
+      // Logged-out view
       userButtons.innerHTML = `
         <div class="dropdown-click">
           <button>Accounts ▾</button>
@@ -195,6 +206,13 @@
           </div>
         </div>
       `;
+    }
+
+    // Logout function
+    function logout() {
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("userName");
+      window.location.reload();
     }
   </script>
 </body>
