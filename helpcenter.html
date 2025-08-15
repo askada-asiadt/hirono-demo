@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beyond the Case - Help Center</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background-color: #f5f6f7;
+    }
+
+    /* Navbar */
+    .navbar {
+        background-color: #3498db;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px;
+    }
+    .navbar h1 {
+        margin: 0;
+        font-size: 20px;
+    }
+    .navbar button {
+        background-color: white;
+        color: #3498db;
+        border: none;
+        padding: 8px 14px;
+        cursor: pointer;
+        border-radius: 4px;
+        font-weight: bold;
+    }
+    .navbar button:hover {
+        background-color: #f0f0f0;
+    }
+
+    /* Section */
+    .section {
+        background: white;
+        margin: 20px;
+        padding: 15px;
+        border-radius: 6px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .section h2 {
+        color: #2c3e50;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    /* Collapsible questions */
+    .question {
+        background-color: #ecf0f1;
+        border: none;
+        padding: 12px;
+        width: 100%;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-top: 5px;
+    }
+    .question:hover {
+        background-color: #dfe6e9;
+    }
+    .answer {
+        display: none;
+        padding: 10px;
+        background: #f9f9f9;
+        border-left: 3px solid #3498db;
+        margin-top: 3px;
+        border-radius: 4px;
+    }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <h1>Beyond the Case - Help Center</h1>
+    <button onclick="window.location.href='index.html'">Return Home</button>
+</div>
+
+<!-- Getting Started -->
+<div class="section">
+    <h2>Getting Started</h2>
+    <button class="question">About Us – Who you are, what you offer.</button>
+    <div class="answer">We are Beyond the Case, offering genuine phones, accessories, and professional repair services.</div>
+
+    <button class="question">How to Shop – Step-by-step guide to browsing and purchasing.</button>
+    <div class="answer">Browse products, add items to cart, proceed to checkout, and confirm payment.</div>
+
+    <button class="question">Account Setup – Creating, logging in, and managing your account.</button>
+    <div class="answer">Click "Sign Up", fill in your details, and verify via email. Manage your profile under "My Account".</div>
+
+    <button class="question">Accepted Payment Methods – Cards, e-wallets, cash on delivery.</button>
+    <div class="answer">We accept Visa, Mastercard, GCash, PayMaya, and COD.</div>
+</div>
+
+<!-- Products & Accessories -->
+<div class="section">
+    <h2>Products & Accessories</h2>
+    <button class="question">Phones – How to view specs, compare models, and check availability.</button>
+    <div class="answer">Use our product filters to compare models, view detailed specs, and check stock.</div>
+
+    <button class="question">Accessories – Types and compatibility guides.</button>
+    <div class="answer">We offer cases, chargers, earphones, and more, with compatibility listed on product pages.</div>
+
+    <button class="question">Warranty Information – Duration, coverage, and claim process.</button>
+    <div class="answer">All products come with a 1-year warranty covering manufacturer defects.</div>
+
+    <button class="question">Authenticity Guarantee – How you ensure genuine products.</button>
+    <div class="answer">We source only from authorized distributors and official brand partners.</div>
+</div>
+
+<!-- Ordering & Delivery -->
+<div class="section">
+    <h2>Ordering & Delivery</h2>
+    <button class="question">How to Place an Order</button>
+    <div class="answer">Add items to your cart, proceed to checkout, and confirm your order.</div>
+
+    <button class="question">Delivery Options</button>
+    <div class="answer">We offer standard, express, and same-day delivery for select areas.</div>
+
+    <button class="question">Delivery Coverage Areas</button>
+    <div class="answer">We deliver nationwide with some restrictions for remote areas.</div>
+
+    <button class="question">Order Tracking</button>
+    <div class="answer">Check your tracking link from the confirmation email or in "My Orders".</div>
+
+    <button class="question">Failed Delivery & Re-Delivery</button>
+    <div class="answer">If delivery fails, we will contact you for a re-delivery schedule.</div>
+</div>
+
+<!-- Repair & Home Services -->
+<div class="section">
+    <h2>Repair & Home Services</h2>
+    <button class="question">On-Site Repairs</button>
+    <div class="answer">Book a technician through our website or hotline.</div>
+
+    <button class="question">Home Service Process</button>
+    <div class="answer">Our team follows strict safety protocols for in-home services.</div>
+
+    <button class="question">Repair Pricing Guide</button>
+    <div class="answer">Prices vary: Screen replacement, battery change, etc., starting at ₱500.</div>
+
+    <button class="question">Service Warranty</button>
+    <div class="answer">We offer a 30–90 day warranty on repairs depending on service type.</div>
+
+    <button class="question">Booking & Cancellation Policy</button>
+    <div class="answer">Cancellations must be made at least 24 hours before the appointment.</div>
+</div>
+
+<!-- Returns, Exchanges & Refunds -->
+<div class="section">
+    <h2>Returns, Exchanges & Refunds</h2>
+    <button class="question">Eligibility</button>
+    <div class="answer">Items must be unused and returned within 7 days with proof of purchase.</div>
+
+    <button class="question">How to Request a Return</button>
+    <div class="answer">Contact support and fill out the return request form.</div>
+
+    <button class="question">Refund Timelines</button>
+    <div class="answer">Refunds are processed within 7–14 business days.</div>
+
+    <button class="question">Damaged or Wrong Item</button>
+    <div class="answer">Report within 48 hours for replacement or refund.</div>
+</div>
+
+<!-- Troubleshooting & Self-Help -->
+<div class="section">
+    <h2>Troubleshooting & Self-Help</h2>
+    <button class="question">Basic Phone Troubleshooting</button>
+    <div class="answer">Restart your phone, check connections, and update software.</div>
+
+    <button class="question">Accessory Issues</button>
+    <div class="answer">Check compatibility and try pairing/resetting the accessory.</div>
+
+    <button class="question">Software Updates</button>
+    <div class="answer">Go to Settings → Software Update → Download and Install.</div>
+</div>
+
+<!-- Privacy, Security & Policies -->
+<div class="section">
+    <h2>Privacy, Security & Policies</h2>
+    <button class="question">Privacy Policy</button>
+    <div class="answer">We secure customer data with encryption and do not share without consent.</div>
+
+    <button class="question">Terms of Service</button>
+    <div class="answer">Using our site means agreeing to our terms and conditions.</div>
+
+    <button class="question">Repair Liability Policy</button>
+    <div class="answer">We are liable for repair damages only within agreed warranty terms.</div>
+</div>
+
+<!-- Contact & Support -->
+<div class="section">
+    <h2>Contact & Support</h2>
+    <button class="question">Live Chat</button>
+    <div class="answer">Available during business hours through our website chat.</div>
+
+    <button class="question">Phone Support</button>
+    <div class="answer">Call our hotline at +63 912 345 6789.</div>
+
+    <button class="question">Email Support</button>
+    <div class="answer">Email us at support@beyondthecase.com.</div>
+
+    <button class="question">Service Center Locations</button>
+    <div class="answer">Visit our branches in Manila, Cebu, and Davao.</div>
+</div>
+
+<!-- FAQ -->
+<div class="section">
+    <h2>Frequently Asked Questions (FAQ)</h2>
+    <button class="question">Do you sell original phones and accessories?</button>
+    <div class="answer">Yes — all products are 100% genuine from authorized brands.</div>
+
+    <button class="question">Do you offer same-day delivery?</button>
+    <div class="answer">Yes, for orders placed before 2 PM in select areas.</div>
+
+    <button class="question">How do I book an on-site repair?</button>
+    <div class="answer">Book through our "Book a Repair" page or hotline.</div>
+
+    <button class="question">What payment methods do you accept?</button>
+    <div class="answer">Credit/debit cards, e-wallets, and COD.</div>
+
+    <button class="question">Do repairs come with a warranty?</button>
+    <div class="answer">Yes, 30–90 days depending on the repair type.</div>
+
+    <button class="question">Can I return a phone if I change my mind?</button>
+    <div class="answer">Only if unused, unopened, and returned within 7 days.</div>
+
+    <button class="question">How do I track my order?</button>
+    <div class="answer">Use the tracking link from your confirmation email.</div>
+
+    <button class="question">What areas do you cover for home service repairs?</button>
+    <div class="answer">We currently cover select areas — more coming soon.</div>
+
+    <button class="question">What happens if my delivery is late?</button>
+    <div class="answer">Contact support — we will track and arrange compensation.</div>
+
+    <button class="question">Do you offer bulk discounts?</button>
+    <div class="answer">Yes — contact us for bulk order discounts.</div>
+</div>
+
+<script>
+    // Toggle dropdown answers
+    document.querySelectorAll(".question").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const answer = btn.nextElementSibling;
+            answer.style.display = (answer.style.display === "block") ? "none" : "block";
+        });
+    });
+</script>
+
+</body>
+</html>

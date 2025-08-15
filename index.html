@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hirono Figurines - Home</title>
+  <title>Beyond the Case - Home</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
     body { display: flex; flex-direction: column; min-height: 100vh; margin: 0; }
@@ -53,11 +53,18 @@
       padding: 10px 15px;
       cursor: pointer;
     }
+    .nav-button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
 
     /* Content */
     .content { padding: 20px; }
     .hero {
-      background: url('img/hero-banner.jpg') center/cover no-repeat;
+      background: url('img/test.jpg') center/cover no-repeat;
       height: 300px;
       display: flex;
       justify-content: center;
@@ -66,6 +73,7 @@
       text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
       font-size: 28px;
       font-weight: bold;
+      text-align: center;
     }
     .section { margin-top: 30px; }
     .section h2 { margin-bottom: 15px; text-align: center; }
@@ -81,7 +89,7 @@
       display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
     }
     .product {
-      width: 120px; border: 1px solid #ccc; padding: 8px;
+      width: 150px; border: 1px solid #ccc; padding: 8px;
       text-align: center; background-color: white; font-size: 14px;
     }
     .product img { width: 100%; height: auto; margin-bottom: 6px; }
@@ -95,6 +103,14 @@
 
   <!-- Topbar -->
   <div class="topbar">
+    <!-- Left side nav buttons -->
+    <div style="margin-right:auto; display:flex; gap:10px;">
+      <button class="nav-button" onclick="location.href='helpcenter.html'">Help Center</button>
+      <button class="nav-button" onclick="location.href='aboutus.html'">About Us</button>
+      <button class="nav-button">Contact Us</button>
+    </div>
+
+    <!-- Right side -->
     <div class="dropdown-hover">
       <button>Intercom ▾</button>
       <div class="dropdown-menu">
@@ -111,50 +127,51 @@
   <div class="content">
     <!-- Hero Banner -->
     <div class="hero">
-      Welcome to Hirono Figurines – Discover Your Collection
+      Beyond the Case – Your Phone, Your Style, Your Tech
     </div>
 
-    <!-- Featured Categories -->
+    <!-- Shop by Category -->
     <div class="section">
-      <h2>Featured Categories</h2>
+      <h2>Shop by Category</h2>
       <div class="categories">
         <div class="category">
-          <img src="img/test.jpg" alt="Limited Edition">
-          Limited Edition
+          <img src="img/test.jpg" alt="Smartphones">
+          Smartphones
         </div>
         <div class="category">
-          <img src="img/test.jpg" alt="New Releases">
-          New Releases
+          <img src="img/test.jpg" alt="Phone Cases">
+          Phone Cases
         </div>
         <div class="category">
-          <img src="img/test.jpg" alt="Best Sellers">
-          Best Sellers
+          <img src="img/test.jpg" alt="Chargers & Accessories">
+          Chargers & Accessories
         </div>
       </div>
     </div>
 
-    <!-- Popular Products -->
+    <!-- Best Sellers -->
     <div class="section">
-      <h2>Popular Picks</h2>
+      <h2>Best Sellers</h2>
       <div class="products">
         <div class="product">
-          <img src="img/test.jpg" alt="Hirono Fading"> Hirono Fading
+          <img src="img/test.jpg" alt="iPhone 15 Pro"> iPhone 15 Pro
         </div>
         <div class="product">
-          <img src="img/test.jpg" alt="Hirono Birdy"> Hirono Birdy
+          <img src="img/test.jpg" alt="MagSafe Charger"> MagSafe Charger
         </div>
         <div class="product">
-          <img src="img/test.jpg" alt="Hirono Candle"> Hirono Candle
+          <img src="img/test.jpg" alt="AirPods Pro"> AirPods Pro
         </div>
       </div>
     </div>
 
     <!-- About Section -->
     <div class="section about">
-      <h2>About Hirono</h2>
-      <p>At Hirono Figurines, we bring art to life through unique collectible designs. 
-         Whether you're a long-time collector or just starting your journey, 
-         our shop offers a curated selection of the finest figurines for every taste.</p>
+      <h2>About Beyond the Case</h2>
+      <p>Beyond the Case is your go-to destination for premium smartphones and must-have accessories. 
+         Whether you're upgrading to the latest model or personalizing your device, 
+         we offer a curated selection that blends technology with style. 
+         From sleek phone cases to fast chargers, we've got everything you need to keep your tech game strong.</p>
     </div>
   </div>
 
