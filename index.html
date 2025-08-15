@@ -175,10 +175,14 @@
     </div>
   </div>
 
+  <!-- Scripts -->
   <script>
     // Check login status from localStorage
     let isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     let userName = localStorage.getItem("userName") || "User";
+    let userEmail = localStorage.getItem("userEmail") || "";
+    let userId = localStorage.getItem("userId") || "";
+    let userCreatedAt = localStorage.getItem("userCreatedAt") || "";
 
     let userButtons = document.getElementById("userButtons");
     let heroText = document.getElementById("heroText");
@@ -195,6 +199,16 @@
         </div>
       `;
       heroText.textContent = `Welcome back, ${userName}!`;
+
+      // Intercom for logged-in users
+      window.intercomSettings = {
+        api_base: "https://api-iam.intercom.io",
+        app_id: "lu3dtr42",
+        user_id: userId,
+        name: userName,
+        email: userEmail,
+        created_at: userCreatedAt
+      };
     } else {
       // Logged-out view
       userButtons.innerHTML = `
@@ -206,12 +220,41 @@
           </div>
         </div>
       `;
+
+      // Intercom for visitors
+      window.intercomSettings = {
+        api_base: "https://api-iam.intercom.io",
+        app_id: "lu3dtr42"
+      };
     }
+
+    // Load Intercom widget
+    (function(){
+      var w=window;var ic=w.Intercom;
+      if(typeof ic==="function"){
+        ic('reattach_activator');ic('update',w.intercomSettings);
+      } else {
+        var d=document;var i=function(){i.c(arguments);};
+        i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;
+        var l=function(){
+          var s=d.createElement('script');s.type='text/javascript';s.async=true;
+          s.src='https://widget.intercom.io/widget/lu3dtr42';
+          var x=d.getElementsByTagName('script')[0];
+          x.parentNode.insertBefore(s,x);
+        };
+        if(document.readyState==='complete'){l();}
+        else if(w.attachEvent){w.attachEvent('onload',l);}
+        else {w.addEventListener('load',l,false);}
+      }
+    })();
 
     // Logout function
     function logout() {
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("userName");
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("userCreatedAt");
       window.location.reload();
     }
   </script>

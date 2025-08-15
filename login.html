@@ -162,6 +162,19 @@
           // Save login state
           localStorage.setItem("isLoggedIn", "true");
           localStorage.setItem("userName", userData.memberName || email);
+          localStorage.setItem("userEmail", userData.memberEmail);
+          localStorage.setItem("userId", querySnapshot.docs[0].id); // optional: Firestore doc ID
+
+          if (userData.createdAt && userData.createdAt.seconds) {
+          localStorage.setItem("userCreatedAt", userData.createdAt.seconds);
+          } else if (userData.createdAt) {
+            localStorage.setItem(
+              "userCreatedAt",
+              Math.floor(new Date(userData.createdAt).getTime() / 1000)
+            );
+          } else {
+            localStorage.setItem("userCreatedAt", Math.floor(Date.now() / 1000));
+          }
 
           msg.textContent = "✅ Login Success";
           msg.className = "success";
