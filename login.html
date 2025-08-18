@@ -5,8 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Beyond the Case - Login</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
-    body { display: flex; flex-direction: column; min-height: 100vh; margin: 0; background-color: #f4f4f4; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
 
     /* Topbar */
     .topbar {
@@ -18,6 +30,7 @@
       padding: 0 20px;
       gap: 20px;
     }
+
     .nav-button {
       background-color: #3498db;
       color: white;
@@ -25,6 +38,7 @@
       padding: 8px 12px;
       cursor: pointer;
     }
+
     .nav-button:hover {
       background-color: #2980b9;
     }
@@ -37,6 +51,7 @@
       align-items: center;
       padding: 20px;
     }
+
     .login-box {
       background: white;
       padding: 30px;
@@ -45,16 +60,19 @@
       width: 100%;
       max-width: 400px;
     }
+
     .login-box h2 {
       text-align: center;
       margin-bottom: 20px;
       color: #3498db;
     }
+
     .login-box label {
       font-weight: bold;
       display: block;
       margin-top: 10px;
     }
+
     .login-box input {
       width: 100%;
       padding: 10px;
@@ -62,6 +80,7 @@
       border-radius: 5px;
       border: 1px solid #ccc;
     }
+
     .login-box button {
       width: 100%;
       background-color: #27ae60;
@@ -73,9 +92,11 @@
       border-radius: 5px;
       font-size: 16px;
     }
+
     .login-box button:hover {
       background-color: #219150;
     }
+
     pre {
       background: #f8f8f8;
       padding: 10px;
@@ -84,10 +105,12 @@
       margin-top: 15px;
       font-size: 14px;
     }
+
     .success {
       color: green;
       font-weight: bold;
     }
+
     .error {
       color: red;
       font-weight: bold;
@@ -123,76 +146,80 @@
     </div>
   </div>
 
-  <!-- Firebase Script -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBCVlP2FHFYUszSns9GLgDJXpHwCkknL8w",
-      authDomain: "btcuserdb.firebaseapp.com",
-      projectId: "btcuserdb",
-      storageBucket: "btcuserdb.firebasestorage.app",
-      messagingSenderId: "598178558501",
-      appId: "1:598178558501:web:613be8d9f986e2885985cc"
-    };
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyBCVlP2FHFYUszSns9GLgDJXpHwCkknL8w",
+  authDomain: "btcuserdb.firebaseapp.com",
+  projectId: "btcuserdb",
+  storageBucket: "btcuserdb.firebasestorage.app",
+  messagingSenderId: "598178558501",
+  appId: "1:598178558501:web:613be8d9f986e2885985cc"
+};
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
-      e.preventDefault(); // stop form refresh
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-      const email = document.getElementById("loginEmail").value.trim();
-      const password = document.getElementById("loginPassword").value.trim();
-      const msg = document.getElementById("loginMessage");
+  const email = document.getElementById("loginEmail").value.trim();
+  const password = document.getElementById("loginPassword").value.trim();
+  const msg = document.getElementById("loginMessage");
 
-      try {
-        const q = query(
-          collection(db, "members"),
-          where("memberEmail", "==", email),
-          where("memberPassword", "==", password)
-        );
+  try {
+    const q = query(
+      collection(db, "members"),
+      where("memberEmail", "==", email),
+      where("memberPassword", "==", password)
+    );
 
-        const querySnapshot = await getDocs(q);
+    const querySnapshot = await getDocs(q);
 
-        if (!querySnapshot.empty) {
-          const userData = querySnapshot.docs[0].data();
+    if (!querySnapshot.empty) {
+      const userData = querySnapshot.docs[0].data();
+      const userId = querySnapshot.docs[0].id;
 
-          // Save login state
-          localStorage.setItem("isLoggedIn", "true");
-          localStorage.setItem("userName", userData.memberName || email);
-          localStorage.setItem("userEmail", userData.memberEmail);
-          localStorage.setItem("userId", querySnapshot.docs[0].id); // optional: Firestore doc ID
+      // Save minimal and safe info to localStorage
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("userId", userId);
+        localStorage.setItem("userName", userData.memberName || "");
+        localStorage.setItem("userEmail", userData.memberEmail || "");
+        localStorage.setItem("currentCredit", userData.currentCredit || 0);
+        localStorage.setItem("dateLastActive", userData.dateLastActive || "");
+        localStorage.setItem("dateOfBirth", userData.dateOfBirth || "");
+        localStorage.setItem("dateRegistered", userData.dateRegistered || "");
+        localStorage.setItem("dateWhenMembershipStarted", userData.dateWhenMembershipStarted || "");
+        localStorage.setItem("gender", userData.gender || "");
+        localStorage.setItem("memberActivityStatus", userData.memberActivityStatus || "");
+        localStorage.setItem("memberPassword", userData.memberPassword || "");
+        localStorage.setItem("membershipStatus", userData.membershipStatus || "");
+        localStorage.setItem("membershipTier", userData.membershipTier || "");
+        localStorage.setItem("mobileNumber", userData.mobileNumber || "");
+        localStorage.setItem("raceRecode", userData.raceRecode || "");
 
-          if (userData.createdAt && userData.createdAt.seconds) {
-          localStorage.setItem("userCreatedAt", userData.createdAt.seconds);
-          } else if (userData.createdAt) {
-            localStorage.setItem(
-              "userCreatedAt",
-              Math.floor(new Date(userData.createdAt).getTime() / 1000)
-            );
-          } else {
-            localStorage.setItem("userCreatedAt", Math.floor(Date.now() / 1000));
-          }
+      msg.textContent = "✅ Login Success";
+      msg.className = "success";
 
-          msg.textContent = "✅ Login Success";
-          msg.className = "success";
+      // Redirect after success
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 1000);
+    } else {
+      msg.textContent = "❌ Incorrect email or password.";
+      msg.className = "error";
+    }
+  } catch (error) {
+    console.error("Login error:", error);
+    msg.textContent = "⚠️ Error connecting to server.";
+    msg.className = "error";
+  }
+});
+</script>
 
-          setTimeout(() => {
-            window.location.href = "index.html";
-          }, 1000);
-        } else {
-          msg.textContent = "❌ Failed login - Incorrect email or password.";
-          msg.className = "error";
-        }
-      } catch (error) {
-        console.error("Login error:", error);
-        msg.textContent = "⚠️ Error connecting to server.";
-        msg.className = "error";
-      }
-    });
-  </script>
 
 </body>
 </html>

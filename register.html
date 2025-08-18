@@ -1,65 +1,176 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Member Registration</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beyond the Case - Register</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { display: flex; flex-direction: column; min-height: 100vh; margin: 0; background-color: #f4f4f4; }
+
+    /* Topbar */
+    .topbar {
+      height: 60px;
+      background-color: #ecf0f1;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 0 20px;
+      gap: 20px;
+    }
+    .nav-button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    .nav-button:hover {
+      background-color: #2980b9;
+    }
+
+    /* Form styling */
+    .content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .register-box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 450px;
+    }
+    .register-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #3498db;
+    }
+    .register-box label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+    .register-box input, .register-box select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .register-box button {
+      width: 100%;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      padding: 10px;
+      margin-top: 20px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .register-box button:hover {
+      background-color: #219150;
+    }
+    pre {
+      background: #f8f8f8;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+      margin-top: 15px;
+      font-size: 14px;
+    }
+    .success { color: green; font-weight: bold; }
+    .error { color: red; font-weight: bold; }
+  </style>
 </head>
 <body>
-  <h2>Register New Member</h2>
 
-  <form id="registerForm">
-    <label>Name:</label><br>
-    <input type="text" id="memberName" required><br><br>
+  <!-- Topbar -->
+  <div class="topbar">
+    <div style="margin-right:auto; display:flex; gap:10px;">
+      <button class="nav-button" onclick="location.href='helpcenter.html'">Help Center</button>
+      <button class="nav-button" onclick="location.href='aboutus.html'">About Us</button>
+      <button class="nav-button">Contact Us</button>
+    </div>
+    <button class="nav-button" onclick="location.href='index.html'">Return Home</button>
+  </div>
 
-    <label>Email:</label><br>
-    <input type="email" id="memberEmail" required><br><br>
+  <!-- Content -->
+  <div class="content">
+    <div class="register-box">
+      <h2>Member Registration</h2>
+      <form id="registerForm">
+        <!-- Editable Fields -->
+        <label>Username:</label>
+        <input type="text" id="memberName" required>
 
-    <label>Password:</label><br>
-    <input type="password" id="memberPassword" required><br><br>
+        <label>Email:</label>
+        <input type="email" id="memberEmail" required>
 
-    <label>Date of Birth:</label><br>
-    <input type="date" id="dateOfBirth" required><br><br>
+        <label>Password:</label>
+        <input type="password" id="memberPassword" required>
 
-    <label>Mobile Number:</label><br>
-    <input type="text" id="mobileNumber" required><br><br>
+        <label>Birthday:</label>
+        <input type="date" id="dateOfBirth" required>
 
-    <label>Gender:</label><br>
-    <select id="gender" required>
-      <option value="">Select Gender</option>
-      <option value="Male">Male</option>
-      <option value="Female">Female</option>
-      <option value="Other">Other</option>
-    </select><br><br>
+        <label>Gender:</label>
+        <select id="gender" required>
+          <option value="">Select</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
 
-    <label>Race:</label><br>
-    <input type="text" id="raceRecode" required><br><br>
+        <label>Mobile Number:</label>
+        <input type="tel" id="mobileNumber" required>
 
-    <label>Membership Status:</label><br>
-    <select id="membershipStatus" required>
-      <option value="FREE">FREE</option>
-      <option value="PRO">PRO</option>
-      <option value="VIP">VIP</option>
-    </select><br><br>
+        <label>Race:</label>
+        <select id="raceRecode" required>
+          <option value="">Select</option>
+          <option value="Chinese">Chinese</option>
+          <option value="Malay">Malay</option>
+          <option value="Indian">Indian</option>
+          <option value="Eurasian">Eurasian</option>
+          <option value="Others">Others</option>
+        </select>
 
-    <label>Membership Tier:</label><br>
-    <select id="membershipTier" required>
-      <option value="P1M">P1M</option>
-      <option value="P3M">P3M</option>
-      <option value="P6M">P6M</option>
-      <option value="P12M">P12M</option>
-    </select><br><br>
+        <!-- Uneditable Fields -->
+        <h3 style="margin-top:15px;">System Info</h3>
+        <label>Date Registered:</label>
+        <input type="text" id="dateRegistered" readonly>
 
-    <label>Date When Membership Started:</label><br>
-    <input type="date" id="dateWhenMembershipStarted" required><br><br>
+        <label>Date Last Active:</label>
+        <input type="text" id="dateLastActive" readonly>
 
-    <button type="submit">Register</button>
-  </form>
+        <label>Current Credit:</label>
+        <input type="number" value="0" readonly>
 
-  <p id="registerMessage"></p>
+        <label>Status:</label>
+        <input type="text" value="ACTIVE" readonly>
 
+        <label>Tier:</label>
+        <input type="text" value="P1M" readonly>
+
+        <label>Membership:</label>
+        <input type="text" value="FREE" readonly>
+
+        <label>Membership Date:</label>
+        <input type="text" id="dateWhenMembershipStarted" readonly>
+
+        <button type="submit">Register</button>
+      </form>
+      <pre id="registerMessage"></pre>
+    </div>
+  </div>
+
+  <!-- Firebase Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getFirestore, doc, setDoc, serverTimestamp, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBCVlP2FHFYUszSns9GLgDJXpHwCkknL8w",
@@ -73,34 +184,74 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    // Auto-fill today’s date for uneditable fields
+    const today = new Date().toISOString().split("T")[0];
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("dateRegistered").value = today;
+      document.getElementById("dateLastActive").value = today;
+      document.getElementById("dateWhenMembershipStarted").value = today;
+    });
+
     document.getElementById("registerForm").addEventListener("submit", async (e) => {
       e.preventDefault();
+      const msg = document.getElementById("registerMessage");
+      msg.textContent = "";
+      msg.className = "";
 
-      const memberData = {
-        memberName: document.getElementById("memberName").value.trim(),
-        memberEmail: document.getElementById("memberEmail").value.trim(),
-        memberPassword: document.getElementById("memberPassword").value.trim(),
+      const memberName = document.getElementById("memberName").value.trim();
+      const memberEmail = document.getElementById("memberEmail").value.trim();
+
+      let warnings = [];
+
+      // Check if memberName exists
+      const nameQuery = query(collection(db, "members"), where("memberName", "==", memberName));
+      const nameSnapshot = await getDocs(nameQuery);
+      if (!nameSnapshot.empty) {
+        warnings.push("⚠️ Username already exists.");
+      }
+
+      // Check if memberEmail exists
+      const emailQuery = query(collection(db, "members"), where("memberEmail", "==", memberEmail));
+      const emailSnapshot = await getDocs(emailQuery);
+      if (!emailSnapshot.empty) {
+        warnings.push("⚠️ Email already exists.");
+      }
+
+      // If any warnings exist, stop registration
+      if (warnings.length > 0) {
+        msg.innerHTML = warnings.join("<br>");
+        msg.className = "error";
+        return; // 🚫 Prevent saving
+      }
+
+      const data = {
+        currentCredit: 0,
+        dateLastActive: today,
         dateOfBirth: document.getElementById("dateOfBirth").value,
-        mobileNumber: document.getElementById("mobileNumber").value.trim(),
-        gender: document.getElementById("gender").value,
-        raceRecode: document.getElementById("raceRecode").value.trim(),
-        membershipStatus: document.getElementById("membershipStatus").value,
-        membershipTier: document.getElementById("membershipTier").value,
-        dateWhenMembershipStarted: document.getElementById("dateWhenMembershipStarted").value,
         dateRegistered: serverTimestamp(),
+        dateWhenMembershipStarted: today,
+        gender: document.getElementById("gender").value,
         memberActivityStatus: "ACTIVE",
-        currentCredit: 0
+        memberEmail: memberEmail,
+        memberName: memberName,
+        memberPassword: document.getElementById("memberPassword").value.trim(),
+        membershipStatus: "FREE",
+        membershipTier: "P1M",
+        mobileNumber: document.getElementById("mobileNumber").value.trim(),
+        raceRecode: document.getElementById("raceRecode").value
       };
 
       try {
-        await addDoc(collection(db, "members"), memberData);
-        document.getElementById("registerMessage").textContent = "Registration successful!";
-        document.getElementById("registerForm").reset();
+        await setDoc(doc(db, "members", data.memberName), data);
+        msg.textContent = "✅ Registration Successful!";
+        msg.className = "success";
       } catch (error) {
-        console.error("Error adding member:", error);
-        document.getElementById("registerMessage").textContent = "Error registering member.";
+        console.error("Error registering:", error);
+        msg.textContent = "❌ Error: " + error.message;
+        msg.className = "error";
       }
     });
   </script>
+
 </body>
 </html>

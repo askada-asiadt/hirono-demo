@@ -8,7 +8,6 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
     body { display: flex; flex-direction: column; min-height: 100vh; margin: 0; }
     
-    /* Topbar */
     .topbar {
       height: 60px;
       background-color: #ecf0f1;
@@ -31,9 +30,7 @@
       min-width: 150px;
     }
     .dropdown-hover:hover .dropdown-menu,
-    .dropdown-click:hover .dropdown-menu {
-      display: flex;
-    }
+    .dropdown-click:hover .dropdown-menu { display: flex; }
     .dropdown-menu button {
       padding: 10px;
       background-color: white;
@@ -42,10 +39,7 @@
       cursor: pointer;
       font-size: 14px;
     }
-    .dropdown-menu button:hover {
-      background-color: #f0f0f0;
-      color: #3498db;
-    }
+    .dropdown-menu button:hover { background-color: #f0f0f0; color: #3498db; }
     .dropdown-hover button, .dropdown-click button {
       background-color: #3498db;
       color: white;
@@ -60,8 +54,6 @@
       padding: 8px 12px;
       cursor: pointer;
     }
-
-    /* Content */
     .content { padding: 20px; }
     .hero {
       background: url('img/test.jpg') center/cover no-repeat;
@@ -77,17 +69,13 @@
     }
     .section { margin-top: 30px; }
     .section h2 { margin-bottom: 15px; text-align: center; }
-    .categories {
-      display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;
-    }
+    .categories { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
     .category {
       width: 200px; background: white; border: 1px solid #ccc;
       padding: 10px; text-align: center; cursor: pointer;
     }
     .category img { width: 100%; height: auto; margin-bottom: 8px; }
-    .products {
-      display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
-    }
+    .products { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
     .product {
       width: 150px; border: 1px solid #ccc; padding: 8px;
       text-align: center; background-color: white; font-size: 14px;
@@ -103,14 +91,12 @@
 
   <!-- Topbar -->
   <div class="topbar">
-    <!-- Left side nav buttons -->
     <div style="margin-right:auto; display:flex; gap:10px;">
       <button class="nav-button" onclick="location.href='helpcenter.html'">Help Center</button>
       <button class="nav-button" onclick="location.href='aboutus.html'">About Us</button>
       <button class="nav-button">Contact Us</button>
     </div>
 
-    <!-- Intercom Dropdown -->
     <div class="dropdown-hover">
       <button>Intercom ▾</button>
       <div class="dropdown-menu">
@@ -120,52 +106,35 @@
       </div>
     </div>
 
-    <!-- Logged in / Logged out buttons -->
+    <!-- Show User Data Button -->
+    <button class="nav-button" onclick="showUserData()">Show User Data</button>
+
     <div id="userButtons"></div>
   </div>
 
   <div class="content">
-    <!-- Hero Banner -->
     <div class="hero" id="heroText">
       Beyond the Case – Your Phone, Your Style, Your Tech
     </div>
 
-    <!-- Shop by Category -->
     <div class="section">
       <h2>Shop by Category</h2>
       <div class="categories">
-        <div class="category">
-          <img src="img/test.jpg" alt="Smartphones">
-          Smartphones
-        </div>
-        <div class="category">
-          <img src="img/test.jpg" alt="Phone Cases">
-          Phone Cases
-        </div>
-        <div class="category">
-          <img src="img/test.jpg" alt="Chargers & Accessories">
-          Chargers & Accessories
-        </div>
+        <div class="category"><img src="img/test.jpg" alt="Smartphones">Smartphones</div>
+        <div class="category"><img src="img/test.jpg" alt="Phone Cases">Phone Cases</div>
+        <div class="category"><img src="img/test.jpg" alt="Chargers & Accessories">Chargers & Accessories</div>
       </div>
     </div>
 
-    <!-- Best Sellers -->
     <div class="section">
       <h2>Best Sellers</h2>
       <div class="products">
-        <div class="product">
-          <img src="img/test.jpg" alt="iPhone 15 Pro"> iPhone 15 Pro
-        </div>
-        <div class="product">
-          <img src="img/test.jpg" alt="MagSafe Charger"> MagSafe Charger
-        </div>
-        <div class="product">
-          <img src="img/test.jpg" alt="AirPods Pro"> AirPods Pro
-        </div>
+        <div class="product"><img src="img/test.jpg" alt="iPhone 15 Pro"> iPhone 15 Pro</div>
+        <div class="product"><img src="img/test.jpg" alt="MagSafe Charger"> MagSafe Charger</div>
+        <div class="product"><img src="img/test.jpg" alt="AirPods Pro"> AirPods Pro</div>
       </div>
     </div>
 
-    <!-- About Section -->
     <div class="section about">
       <h2>About Beyond the Case</h2>
       <p>Beyond the Case is your go-to destination for premium smartphones and must-have accessories. 
@@ -175,9 +144,8 @@
     </div>
   </div>
 
-  <!-- Scripts -->
   <script>
-    // Check login status from localStorage
+    // Get login details
     let isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
     let userName = localStorage.getItem("userName") || "User";
     let userEmail = localStorage.getItem("userEmail") || "";
@@ -187,8 +155,8 @@
     let userButtons = document.getElementById("userButtons");
     let heroText = document.getElementById("heroText");
 
+    // Setup Intercom settings
     if (isLoggedIn) {
-      // Logged-in view
       userButtons.innerHTML = `
         <div class="dropdown-click">
           <button>Accounts ▾</button>
@@ -200,17 +168,18 @@
       `;
       heroText.textContent = `Welcome back, ${userName}!`;
 
-      // Intercom for logged-in users
+      const gender = localStorage.getItem("gender") || "";
+
       window.intercomSettings = {
         api_base: "https://api-iam.intercom.io",
         app_id: "lu3dtr42",
         user_id: userId,
         name: userName,
         email: userEmail,
-        created_at: userCreatedAt
+        created_at: userCreatedAt,
+        genderr: gender   // <-- custom property
       };
     } else {
-      // Logged-out view
       userButtons.innerHTML = `
         <div class="dropdown-click">
           <button>Accounts ▾</button>
@@ -220,25 +189,21 @@
           </div>
         </div>
       `;
-
-      // Intercom for visitors
-      window.intercomSettings = {
-        api_base: "https://api-iam.intercom.io",
-        app_id: "lu3dtr42"
-      };
+      window.intercomSettings = { api_base: "https://api-iam.intercom.io", app_id: "lu3dtr42" };
     }
 
-    // Load Intercom widget
+    // Load Intercom and boot immediately
     (function(){
       var w=window;var ic=w.Intercom;
-      if(typeof ic==="function"){
-        ic('reattach_activator');ic('update',w.intercomSettings);
-      } else {
+      var onReady = function(){ Intercom('boot', window.intercomSettings); };
+      if(typeof ic==="function"){ ic('reattach_activator'); ic('update', w.intercomSettings); } 
+      else {
         var d=document;var i=function(){i.c(arguments);};
         i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;
         var l=function(){
           var s=d.createElement('script');s.type='text/javascript';s.async=true;
           s.src='https://widget.intercom.io/widget/lu3dtr42';
+          s.onload = onReady; 
           var x=d.getElementsByTagName('script')[0];
           x.parentNode.insertBefore(s,x);
         };
@@ -248,15 +213,39 @@
       }
     })();
 
-    // Logout function
     function logout() {
-      localStorage.removeItem("isLoggedIn");
-      localStorage.removeItem("userName");
-      localStorage.removeItem("userEmail");
-      localStorage.removeItem("userId");
-      localStorage.removeItem("userCreatedAt");
+      localStorage.clear();
+      Intercom('shutdown');
       window.location.reload();
     }
+
+    function showUserData() {
+  const keys = [
+    "isLoggedIn",
+    "userId",
+    "userName",
+    "userEmail",
+    "currentCredit",
+    "dateLastActive",
+    "dateOfBirth",
+    "dateRegistered",
+    "dateWhenMembershipStarted",
+    "gender",
+    "memberActivityStatus",
+    "memberPassword",
+    "membershipStatus",
+    "membershipTier",
+    "mobileNumber",
+    "raceRecode"
+  ];
+
+  let message = "User Data:\n";
+  keys.forEach(key => {
+    message += `${key}: ${localStorage.getItem(key)}\n`;
+  });
+
+  alert(message);
+}
   </script>
 </body>
 </html>
