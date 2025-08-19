@@ -51,7 +51,7 @@
       background-color: #3498db;
       color: white;
       border: none;
-      padding: 8px 12px;
+      padding: 11px 12px;
       cursor: pointer;
     }
     .content { padding: 20px; }
@@ -106,15 +106,19 @@
       </div>
     </div>
 
-    <!-- Show User Data Button -->
-    <button class="nav-button" onclick="showUserData()">Show User Data</button>
+    <!-- Show Data Button -->
+    <button class="nav-button" onclick="showUserData()">Show Data</button>
 
-    <div id="userButtons"></div>
+    <!-- Accounts dropdown (dynamic) -->
+    <div class="dropdown-click">
+      <button>Accounts ▾</button>
+      <div class="dropdown-menu" id="accountMenu"></div>
+    </div>
   </div>
 
   <div class="content">
-    <div class="hero" id="heroText">
-      Beyond the Case – Your Phone, Your Style, Your Tech 1
+    <div class="hero">
+      Beyond the Case – Your Phone, Your Style, Your Tech
     </div>
 
     <div class="section">
@@ -145,108 +149,120 @@
   </div>
 
   <script>
-    // Get login details
-    let isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-    let userName = localStorage.getItem("userName") || "User";
-    let userEmail = localStorage.getItem("userEmail") || "";
-    let userId = localStorage.getItem("userId") || "";
-    let userCreatedAt = localStorage.getItem("userCreatedAt") || "";
+    const accountMenu = document.getElementById("accountMenu");
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
-    let userButtons = document.getElementById("userButtons");
-    let heroText = document.getElementById("heroText");
+    function renderAccountMenu() {
+      accountMenu.innerHTML = "";
+      if (isLoggedIn) {
+        const profileBtn = document.createElement("button");
+        profileBtn.textContent = "Profile";
+        profileBtn.onclick = () => location.href = "profile.html";
 
-    // Setup Intercom settings
-    if (isLoggedIn) {
-      userButtons.innerHTML = `
-        <div class="dropdown-click">
-          <button>Accounts ▾</button>
-          <div class="dropdown-menu">
-            <button onclick="location.href='profile.html'">Profile</button>
-            <button onclick="logout()">Logout</button>
-          </div>
-        </div>
-      `;
-      heroText.textContent = `Welcome back, ${userName}!`;
+        const logoutBtn = document.createElement("button");
+        logoutBtn.textContent = "Logout";
+        logoutBtn.onclick = () => {
+          localStorage.clear();
+          location.reload();
+        };
 
-      const gender = localStorage.getItem("gender") || "";
+        accountMenu.appendChild(profileBtn);
+        accountMenu.appendChild(logoutBtn);
+      } else {
+        const signInBtn = document.createElement("button");
+        signInBtn.textContent = "Sign In";
+        signInBtn.onclick = () => location.href = "login.html";
 
-      window.intercomSettings = {
-        api_base: "https://api-iam.intercom.io",
-        app_id: "lu3dtr42",
-        user_id: userId,
-        name: userName,
-        email: userEmail,
-        created_at: userCreatedAt,
-        genderr: gender,   // <-- custom property
-        credit: currentCredit
-      };
-    } else {
-      userButtons.innerHTML = `
-        <div class="dropdown-click">
-          <button>Accounts ▾</button>
-          <div class="dropdown-menu">
-            <button onclick="location.href='login.html'">Sign In</button>
-            <button onclick="location.href='register.html'">Register</button>
-          </div>
-        </div>
-      `;
-      window.intercomSettings = { api_base: "https://api-iam.intercom.io", app_id: "lu3dtr42" };
+        const registerBtn = document.createElement("button");
+        registerBtn.textContent = "Register";
+        registerBtn.onclick = () => location.href = "register.html";
+
+        accountMenu.appendChild(signInBtn);
+        accountMenu.appendChild(registerBtn);
+      }
     }
 
-    // Load Intercom and boot immediately
-    (function(){
-      var w=window;var ic=w.Intercom;
-      var onReady = function(){ Intercom('boot', window.intercomSettings); };
-      if(typeof ic==="function"){ ic('reattach_activator'); ic('update', w.intercomSettings); } 
-      else {
-        var d=document;var i=function(){i.c(arguments);};
-        i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;
-        var l=function(){
-          var s=d.createElement('script');s.type='text/javascript';s.async=true;
-          s.src='https://widget.intercom.io/widget/lu3dtr42';
-          s.onload = onReady; 
-          var x=d.getElementsByTagName('script')[0];
-          x.parentNode.insertBefore(s,x);
-        };
+    // Show Data Button logic
+    function showUserData() {
+      if (isLoggedIn) {
+        const isLoggedInVal = localStorage.getItem("isLoggedIn") || "false";
+        const userId = localStorage.getItem("userId") || "N/A";
+        const userName = localStorage.getItem("userName") || "Unknown User";
+        const userEmail = localStorage.getItem("userEmail") || "No email saved";
+        const currentCredit = localStorage.getItem("currentCredit") || "0";
+        const dateLastActive = localStorage.getItem("dateLastActive") || "N/A";
+        const dateOfBirth = localStorage.getItem("dateOfBirth") || "N/A";
+        const dateRegistered = localStorage.getItem("dateRegistered") || "N/A";
+        const dateWhenMembershipStarted = localStorage.getItem("dateWhenMembershipStarted") || "N/A";
+        const gender = localStorage.getItem("gender") || "N/A";
+        const memberActivityStatus = localStorage.getItem("memberActivityStatus") || "N/A";
+        const memberPassword = localStorage.getItem("memberPassword") || "N/A";
+        const membershipStatus = localStorage.getItem("membershipStatus") || "N/A";
+        const membershipTier = localStorage.getItem("membershipTier") || "N/A";
+        const mobileNumber = localStorage.getItem("mobileNumber") || "N/A";
+        const raceRecode = localStorage.getItem("raceRecode") || "N/A";
+
+        alert(
+          `User Data:\n\n` +
+          `Is Logged In: ${isLoggedInVal}\n` +
+          `User ID: ${userId}\n` +
+          `Name: ${userName}\n` +
+          `Email: ${userEmail}\n` +
+          `Credits: ${currentCredit}\n` +
+          `Date Last Active: ${dateLastActive}\n` +
+          `Date of Birth: ${dateOfBirth}\n` +
+          `Date Registered: ${dateRegistered}\n` +
+          `Membership Start: ${dateWhenMembershipStarted}\n` +
+          `Gender: ${gender}\n` +
+          `Activity Status: ${memberActivityStatus}\n` +
+          `Password: ${memberPassword}\n` +
+          `Membership Status: ${membershipStatus}\n` +
+          `Membership Tier: ${membershipTier}\n` +
+          `Mobile Number: ${mobileNumber}\n` +
+          `Race Recode: ${raceRecode}`
+        );
+      } else {
+        alert("Not logged in");
+      }
+    }
+
+    renderAccountMenu();
+  </script>
+
+  <!-- Intercom Messenger Embed -->
+  <script>
+    window.intercomSettings = {
+      app_id: "lu3dtr42"
+    };
+
+    const isUserLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+
+    if (isUserLoggedIn) {
+      window.intercomSettings = {
+        app_id: "lu3dtr42",
+        user_id: localStorage.getItem("userId") || undefined,
+        name: localStorage.getItem("userName") || undefined,
+        email: localStorage.getItem("userEmail") || undefined,
+        created_at: Math.floor(new Date(localStorage.getItem("dateRegistered") || Date.now()).getTime() / 1000),
+
+        genderr: localStorage.getItem("gender") || "N/A"
+      };
+    }
+
+    (function(){var w=window;var ic=w.Intercom;
+      if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}
+      else {var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};
+        w.Intercom=i;function l(){var s=d.createElement('script');
+        s.type='text/javascript';s.async=true;
+        s.src='https://widget.intercom.io/widget/lu3dtr42';
+        var x=d.getElementsByTagName('script')[0];
+        x.parentNode.insertBefore(s,x);}
         if(document.readyState==='complete'){l();}
         else if(w.attachEvent){w.attachEvent('onload',l);}
         else {w.addEventListener('load',l,false);}
       }
     })();
-
-    function logout() {
-      localStorage.clear();
-      Intercom('shutdown');
-      window.location.reload();
-    }
-
-    function showUserData() {
-  const keys = [
-    "isLoggedIn",
-    "userId",
-    "userName",
-    "userEmail",
-    "currentCredit",
-    "dateLastActive",
-    "dateOfBirth",
-    "dateRegistered",
-    "dateWhenMembershipStarted",
-    "gender",
-    "memberActivityStatus",
-    "memberPassword",
-    "membershipStatus",
-    "membershipTier",
-    "mobileNumber",
-    "raceRecode"
-  ];
-
-  let message = "User Data:\n";
-  keys.forEach(key => {
-    message += `${key}: ${localStorage.getItem(key)}\n`;
-  });
-
-  alert(message);
-}
   </script>
+
 </body>
 </html>
