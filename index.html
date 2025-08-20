@@ -97,6 +97,11 @@
       <button class="nav-button">Contact Us</button>
     </div>
 
+    <button class="nav-button" onclick="location.href='import.html'">Import</button>
+
+    <!-- Show Data Button -->
+    <button class="nav-button" onclick="showUserData()">Show Data</button>
+
     <div class="dropdown-hover">
       <button>Intercom ▾</button>
       <div class="dropdown-menu">
@@ -105,9 +110,6 @@
         <button>Tour 2</button>
       </div>
     </div>
-
-    <!-- Show Data Button -->
-    <button class="nav-button" onclick="showUserData()">Show Data</button>
 
     <!-- Accounts dropdown (dynamic) -->
     <div class="dropdown-click">
@@ -238,6 +240,51 @@
     const isUserLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
     if (isUserLoggedIn) {
+
+      const dateLastActiveStr = localStorage.getItem("dateLastActive");
+      const today = new Date(); // today’s date
+
+      let daysInactive = "N/A";
+      let memTier = "N/A";
+      let activityStatus = "ACTIVE";
+
+      let age = "N/A";
+      const dobStr = localStorage.getItem("dateOfBirth");
+      if (dobStr) {
+        const dob = new Date(dobStr);
+        age = today.getFullYear() - dob.getFullYear();
+        const m = today.getMonth() - dob.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+          age--; // subtract 1 if birthday hasn’t happened yet this year
+        }
+      }
+
+      if (dateLastActiveStr) {
+        const lastActive = new Date(dateLastActiveStr);
+        const diffTime = today.getTime() - lastActive.getTime();
+        daysInactive = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+        // classify memTier
+        if (daysInactive >= 1 && daysInactive <= 30) {
+          memTier = "P1M";
+        } else if (daysInactive >= 31 && daysInactive <= 90) {
+          memTier = "P3M";
+        } else if (daysInactive >= 91 && daysInactive <= 180) {
+          memTier = "P6M";
+        } else if (daysInactive >= 181 && daysInactive <= 360) {
+          memTier = "P12M";
+        } else if (daysInactive >= 361) {
+          memTier = "P12MI";
+        }
+
+        if (daysInactive >= 91) {
+          activityStatus = "INACTIVE";
+        } else {
+          activityStatus = "ACTIVE";
+        }
+
+      }
+      
       window.intercomSettings = {
         app_id: "lu3dtr42",
         user_id: localStorage.getItem("userId") || undefined,
@@ -245,7 +292,22 @@
         email: localStorage.getItem("userEmail") || undefined,
         created_at: Math.floor(new Date(localStorage.getItem("dateRegistered") || Date.now()).getTime() / 1000),
 
-        genderr: localStorage.getItem("gender") || "N/A"
+        
+        credit: localStorage.getItem("currentCredit") || "0",
+        lastactivity: localStorage.getItem("dateLastActive") || "N/A",
+        birthday: localStorage.getItem("dateOfBirth") || "N/A",
+        registerdate: localStorage.getItem("dateRegistered") || "N/A",
+        dateMembershipStarted: localStorage.getItem("dateWhenMembershipStarted") || "N/A",
+        genderr: localStorage.getItem("gender") || "N/A",
+        memStatus: localStorage.getItem("membershipStatus") || "N/A",
+        number: localStorage.getItem("mobileNumber") || "N/A",
+        race: localStorage.getItem("raceRecode") || "N/A",
+
+        
+        daysInactive: daysInactive,
+        memTier: memTier,
+        ActivityStatus: activityStatus,
+        age:age
       };
     }
 
