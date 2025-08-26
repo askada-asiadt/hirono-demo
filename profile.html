@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Profile</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background-color: #f4f4f4; padding: 20px; }
+
+    .top-bar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px; /* space between buttons */
+      margin-bottom: 15px;
+    }
+    .btn {
+      background: #3498db;
+      color: white;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: #217dbb;
+    }
+
+    .profile-container {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .profile-header img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-right: 20px;
+      border: 3px solid #3498db;
+    }
+    .profile-header h2 {
+      font-size: 22px;
+      color: #333;
+    }
+    .profile-info {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      row-gap: 12px;
+      column-gap: 10px;
+    }
+    .profile-info div {
+      padding: 6px 0;
+    }
+    .field-name {
+      font-weight: bold;
+      color: #555;
+    }
+    .field-value {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top bar with Home and Shop buttons -->
+  <div class="top-bar">
+    <button class="btn" onclick="window.location.href='index.html'">Home</button>
+    <button class="btn" onclick="window.location.href='shop.html'">Shop</button>
+  </div>
+
+  <div class="profile-container">
+    <div class="profile-header">
+      <img src="img/test.jpg" alt="Profile Picture">
+      <h2 id="profileName">Member</h2>
+    </div>
+    <div class="profile-info">
+      <div class="field-name">Current Credit:</div><div class="field-value" id="credit"></div>
+      <div class="field-name">Date Last Active:</div><div class="field-value" id="lastActive"></div>
+      <div class="field-name">Date of Birth:</div><div class="field-value" id="dob"></div>
+      <div class="field-name">Date Registered:</div><div class="field-value" id="dateRegistered"></div>
+      <div class="field-name">Membership Started:</div><div class="field-value" id="memStart"></div>
+      <div class="field-name">Gender:</div><div class="field-value" id="gender"></div>
+      <div class="field-name">Activity Status:</div><div class="field-value" id="activityStatus"></div>
+      <div class="field-name">Email:</div><div class="field-value" id="email"></div>
+      <div class="field-name">Name:</div><div class="field-value" id="name"></div>
+      <div class="field-name">Password:</div><div class="field-value" id="password"></div>
+      <div class="field-name">Membership Status:</div><div class="field-value" id="membershipStatus"></div>
+      <div class="field-name">Membership Tier:</div><div class="field-value" id="membershipTier"></div>
+      <div class="field-name">Mobile Number:</div><div class="field-value" id="mobile"></div>
+      <div class="field-name">Race Recode:</div><div class="field-value" id="race"></div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+      if (!isLoggedIn) {
+        alert("You are not logged in!");
+        window.location.href = "login.html";
+        return;
+      }
+
+      document.getElementById("profileName").textContent = localStorage.getItem("userName") || "Member";
+      document.getElementById("credit").textContent = localStorage.getItem("currentCredit") || "0";
+      document.getElementById("lastActive").textContent = localStorage.getItem("dateLastActive") || "N/A";
+      document.getElementById("dob").textContent = localStorage.getItem("dateOfBirth") || "N/A";
+      document.getElementById("dateRegistered").textContent = localStorage.getItem("dateRegistered") || "N/A";
+      document.getElementById("memStart").textContent = localStorage.getItem("dateWhenMembershipStarted") || "N/A";
+      document.getElementById("gender").textContent = localStorage.getItem("gender") || "N/A";
+      document.getElementById("activityStatus").textContent = localStorage.getItem("memberActivityStatus") || "N/A";
+      document.getElementById("email").textContent = localStorage.getItem("userEmail") || "N/A";
+      document.getElementById("name").textContent = localStorage.getItem("userName") || "N/A";
+      document.getElementById("password").textContent = localStorage.getItem("memberPassword") || "N/A";
+      document.getElementById("membershipStatus").textContent = localStorage.getItem("membershipStatus") || "N/A";
+      document.getElementById("membershipTier").textContent = localStorage.getItem("membershipTier") || "N/A";
+      document.getElementById("mobile").textContent = localStorage.getItem("mobileNumber") || "N/A";
+      document.getElementById("race").textContent = localStorage.getItem("raceRecode") || "N/A";
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Import Members to Firestore</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+    button { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; background: #3498db; color: white; }
+    button:hover { background: #2980b9; }
+    pre { margin-top: 20px; background: #fff; padding: 15px; border-radius: 5px; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+
+  <h1>Import Members</h1>
+  <p>Click the button below to insert tailored data into Firestore.</p>
+  <button id="importBtn">🚀 Import Data</button>
+  <pre id="log"></pre>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { 
+      getFirestore, collection, addDoc 
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    // 🔑 Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBCVlP2FHFYUszSns9GLgDJXpHwCkknL8w",
+      authDomain: "btcuserdb.firebaseapp.com",
+      projectId: "btcuserdb",
+      storageBucket: "btcuserdb.firebasestorage.app",
+      messagingSenderId: "598178558501",
+      appId: "1:598178558501:web:613be8d9f986e2885985cc"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const log = document.getElementById("log");
+
+    // 🔹 Members dataset
+const members = [
+  {
+    memberName: "Member_002",
+    memberEmail: "member_002@test1mail.com",
+    dateOfBirth: "1994-02-11",
+    mobileNumber: "80000002",
+    membershipStatus: "FULL MEMBER",
+    gender: "MALE",
+    raceRecode: "CHINESE",
+    currentCredit: 3465,
+    dateWhenMembershipStarted: "2016-07-13",
+    dateRegistered: "2016-07-13",
+    dateLastActive: "2025-08-16"
+  },
+  {
+    memberName: "Member_003",
+    memberEmail: "member_003@test1mail.com",
+    dateOfBirth: "1975-03-24",
+    mobileNumber: "80000003",
+    membershipStatus: "FULL MEMBER",
+    gender: "FEMALE",
+    raceRecode: "CHINESE",
+    currentCredit: 4076,
+    dateWhenMembershipStarted: "2016-09-07",
+    dateRegistered: "2016-09-07",
+    dateLastActive: "2025-08-18"
+  },
+  {
+    memberName: "Member_004",
+    memberEmail: "member_004@test1mail.com",
+    dateOfBirth: "2001-02-19",
+    mobileNumber: "80000004",
+    membershipStatus: "FULL MEMBER",
+    gender: "FEMALE",
+    raceRecode: "MALAY",
+    currentCredit: 648,
+    dateWhenMembershipStarted: "2016-07-09",
+    dateRegistered: "2016-07-09",
+    dateLastActive: "2025-08-15"
+  }
+];
+
+    // 🔹 Add default fields to each member
+    members.forEach(m => {
+      m.memberPassword = "test123";
+      m.memberActivityStatus = "ACTIVE";
+      m.membershipTier = "P1M";
+    });
+
+    // 🔹 Import function (Firestore generates ID)
+    async function importMembers() {
+      log.textContent = "⏳ Importing data...\n";
+      for (const member of members) {
+        try {
+          const docRef = await addDoc(collection(db, "members"), member);
+          log.textContent += `✅ Inserted Firestore ID ${docRef.id}: ${member.memberName}\n`;
+        } catch (err) {
+          log.textContent += `❌ Error for ${member.memberName}: ${err.message}\n`;
+        }
+      }
+      log.textContent += "🎉 Import finished.";
+    }
+
+    document.getElementById("importBtn").addEventListener("click", importMembers);
+  </script>
+</body>
+</html>
