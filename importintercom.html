@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Import Intercom - Step 1</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+    h1 { color: #3498db; }
+    button {
+      padding: 10px 20px; 
+      border: none; 
+      background: #3498db; 
+      color: white; 
+      cursor: pointer; 
+      border-radius: 5px;
+      margin-top: 15px;
+    }
+    button:hover:enabled { background: #2980b9; }
+    button:disabled { background: #95a5a6; cursor: not-allowed; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background: #3498db; color: white; }
+    #output { max-height: 500px; overflow-y: auto; }
+  </style>
+</head>
+<body>
+  <h1>Step 1: Import Members to Intercom</h1>
+  <p>Click the first button to fetch all members from Firebase. Then click the second button to send them to Intercom.</p>
+  
+  <!-- Buttons -->
+  <button id="fetchBtn" onclick="fetchFirebaseData()">Fetch & Store Firebase Data</button>
+  <button id="importBtn" onclick="importToIntercom()" disabled>Contact Import to Intercom</button>
+
+  <div id="output"></div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore-compat.js"></script>
+
+  <script>
+    // 🔹 Your Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBCVlP2FHFYUszSns9GLgDJXpHwCkknL8w",
+      authDomain: "btcuserdb.firebaseapp.com",
+      projectId: "btcuserdb",
+      storageBucket: "btcuserdb.firebasestorage.app",
+      messagingSenderId: "598178558501",
+      appId: "1:598178558501:web:613be8d9f986e2885985cc"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    let fetchedUsers = []; // store users in memory
+
+    // 🔹 Fetch data from Firebase
+    async function fetchFirebaseData() {
+      const output = document.getElementById("output");
+      const importBtn = document.getElementById("importBtn");
+
+      output.innerHTML = "Fetching users...";
+
+      try {
+        const snapshot = await db.collection("members").get(); 
+        if (snapshot.empty) {
+          output.innerHTML = "<p>⚠️ No users found in Firebase.</p>";
+          return;
+        }
+
+        let table = `
+          <table>
+            <thead>
+              <tr>
+                <th>UserID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Credit</th>
+                <th>Last Activity</th>
+                <th>Birthday</th>
+                <th>Register Date</th>
+                <th>Membership Started</th>
+                <th>Gender</th>
+                <th>Member Status</th>
+                <th>Mobile</th>
+                <th>Race</th>
+                <th>Days Inactive</th>
+                <th>MemTier</th>
+                <th>Activity Status</th>
+                <th>Age</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+
+        fetchedUsers = []; // reset
+        const today = new Date();
+
+        snapshot.forEach(doc => {
+          const user = doc.data();
+
+          // 🔹 Default computed values
+          let daysInactive = "N/A";
+          let memTier = "N/A";
+          let activityStatus = "ACTIVE";
+          let age = "N/A";
+
+          // 🔹 Compute Age
+          if (user.dateOfBirth) {
+            const dob = new Date(user.dateOfBirth);
+            if (!isNaN(dob)) {
+              age = today.getFullYear() - dob.getFullYear();
+              const m = today.getMonth() - dob.getMonth();
+              if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+                age--;
+              }
+            }
+          }
+
+          // 🔹 Compute Inactivity
+          if (user.dateLastActive) {
+            const lastActive = new Date(user.dateLastActive);
+            if (!isNaN(lastActive)) {
+              const diffTime = today.getTime() - lastActive.getTime();
+              daysInactive = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+              // classify memTier
+              if (daysInactive >= 1 && daysInactive <= 30) {
+                memTier = "P1M";
+              } else if (daysInactive >= 31 && daysInactive <= 90) {
+                memTier = "P3M";
+              } else if (daysInactive >= 91 && daysInactive <= 180) {
+                memTier = "P6M";
+              } else if (daysInactive >= 181 && daysInactive <= 360) {
+                memTier = "P12M";
+              } else if (daysInactive >= 361) {
+                memTier = "P12MI";
+              }
+
+              activityStatus = (daysInactive >= 91) ? "INACTIVE" : "ACTIVE";
+            }
+          }
+
+          // 🔹 Push user in correct format for Intercom
+          fetchedUsers.push({
+            external_id: doc.id,
+            name: user.memberName || "N/A",
+            email: user.memberEmail || "N/A",
+            phone: user.mobileNumber || "N/A",
+            custom_attributes: {
+              credit: user.currentCredit ?? 0,
+              lastactivity: user.dateLastActive || "N/A",
+              birthday: user.dateOfBirth || "N/A",
+              registerdate: user.dateRegistered || "N/A",
+              dateMembershipStarted: user.dateWhenMembershipStarted || "N/A",
+              genderr: user.gender || "N/A",
+              memStatus: user.membershipStatus || "N/A",
+              number: user.mobileNumber || "N/A",
+              race: user.raceRecode || "N/A",
+              // Computed fields
+              daysInactive:daysInactive,
+              memTier:memTier,
+              ActivityStatus:activityStatus,
+              age:age
+            }
+          });
+
+          // Build table row
+          table += `
+            <tr>
+              <td>${doc.id}</td>
+              <td>${user.memberName || "N/A"}</td>
+              <td>${user.memberEmail || "N/A"}</td>
+              <td>${user.currentCredit ?? 0}</td>
+              <td>${user.dateLastActive || "N/A"}</td>
+              <td>${user.dateOfBirth || "N/A"}</td>
+              <td>${user.dateRegistered || "N/A"}</td>
+              <td>${user.dateWhenMembershipStarted || "N/A"}</td>
+              <td>${user.gender || "N/A"}</td>
+              <td>${user.membershipStatus || "N/A"}</td>
+              <td>${user.mobileNumber || "N/A"}</td>
+              <td>${user.raceRecode || "N/A"}</td>
+              <td>${daysInactive}</td>
+              <td>${memTier}</td>
+              <td>${activityStatus}</td>
+              <td>${age}</td>
+            </tr>
+          `;
+        });
+
+        table += "</tbody></table>";
+        output.innerHTML = table;
+
+        // Save to localStorage
+        try { localStorage.setItem("fetchedUsers", JSON.stringify(fetchedUsers)); } catch {}
+
+        // Enable import button
+        importBtn.disabled = false;
+
+      } catch (err) {
+        console.error(err);
+        output.innerHTML = `<p>❌ Error: ${err.message}</p>`;
+      }
+    }
+
+    // 🔹 Send fetched users to backend for Intercom import
+    async function importToIntercom() {
+      if (fetchedUsers.length === 0) {
+        alert("⚠️ No users fetched yet!");
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:3000/import-to-intercom", { // your backend endpoint
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ users: fetchedUsers })
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          alert(`✅ Successfully imported users to Intercom!`);
+        } else {
+          alert(`❌ Error: ${result.error}`);
+        }
+      } catch (err) {
+        console.error(err);
+        alert("❌ Failed to import users. Check console for details.");
+      }
+    }
+  </script>
+</body>
+</html>
